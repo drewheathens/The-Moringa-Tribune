@@ -1,4 +1,5 @@
 from django.db import models
+import datetime as dt
 
 # Create your models here.
 class Editor(models.Model):
@@ -13,6 +14,7 @@ class Editor(models.Model):
 
     def save_editor(self):
         self.save()
+
 class Meta:
        ordering = ['first_name']
        
@@ -28,6 +30,27 @@ class Article(models.Model):
     editor = models.ForeignKey(Editor)
     tags = models.ManyToManyField(tags)
     pub_date = models.DateTimeField(auto_now_add=True)
+    
+    @classmethod
+    def days_news(cls,date):
+            news = cls.objects.filter(pub_date__date = date)
+            return news
+        
+    @classmethod
+    def todays_news(cls):
+            today = dt.date.today()
+            news = cls.objects.filter(pub_date__date = today)
+            return news
+
+    @classmethod
+    def search_by_title(cls,search_term):
+        #__icontains searches for matches of search term(s)
+        news = cls.objects.filter(title__icontains=search_term)
+        return news
+
+  
+
+    
     # try:
 #     editor = Editor.objects.get(email = 'example@gmail.com')
 #     print('Editor found')
