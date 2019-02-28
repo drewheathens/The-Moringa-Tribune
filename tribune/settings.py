@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
  #set to 'prod' in production
-ALLOWED_HOSTS='.localhost', '.herokuapp.com', '.127.0.0.1'
-DISABLE_COLLECTSTATIC=1
-We then edit settings.py to enable decouple to use the .env configurations.
 
 import os
 import django_heroku
@@ -22,7 +19,7 @@ from decouple import config,Csv
 
 MODE=config("MODE", default="dev")
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG')
 # development
 if config('MODE')=="dev":
    DATABASES = {
@@ -54,8 +51,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
-# Configure Django App for Heroku.
-django_heroku.settings(locals())
+# 
 
 
 # Quick-start development settings - unsuitable for production
@@ -65,7 +61,7 @@ django_heroku.settings(locals())
 SECRET_KEY = '9j^l+6&02k#0#o#^utlv5-vx!n!&9&q=-k8t1m8mta@epl%8*9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -79,7 +75,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'news.apps.NewsConfig',
+    'news',
     'bootstrap3',
 ]
 
@@ -188,3 +184,6 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+django_heroku.settings(locals())
