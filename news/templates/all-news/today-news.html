@@ -25,6 +25,18 @@
     <h2 class="text-center">There No News Items</h2>
   </div>
   {% endfor %}
+  {% load bootstrap3 %}
+  <!-- Looping through news end   -->
+<div class="container-fluid">
+
+  <form  action="{%url 'newsToday'%}" method="post">
+    {%csrf_token%}
+
+    {% bootstrap_form letterForm layout='inline' %}
+    <input type="submit" style="background-color: green;" classvalue="Subscribe">
+  </form>
+
+</div>
 
 </div>
 {% endblock %}
